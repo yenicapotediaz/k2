@@ -58,11 +58,6 @@ definitions:
           subnetMax: 10.191.255.255
           backend:
             type: vxlan
-  loadBalancerConfigs:
-    - &defaultLoadBalancer
-      name: defaultLoadBalancer
-      kind: loadBalancer
-      type: cloud
   kvStoreConfigs:
     - &defaultEtcd
       name: etcd
@@ -86,6 +81,7 @@ definitions:
     - &defaultApiServer
       name: defaultApiServer
       kind: apiServer
+      loadBalancer: cloud
       state:
         etcd: *defaultEtcd
       events:
@@ -93,16 +89,15 @@ definitions:
   kubeConfigs:
     - &defaultKube
       name: defaultKube
-      kind: k8s
-      type: release
-      version: v1.5.2
+      kind: kubernetes
+      version: v1.5.6
       hyperkubeLocation: gcr.io/google_containers/hyperkube
   containerConfigs:
     - &defaultDocker
       name: defaultDocker
       kind: container
-      type: distro
       runtime: docker
+      type: distro
   osConfigs:
     - &defaultCoreOs
       name: defaultCoreOs
@@ -362,7 +357,6 @@ deployment:
           keyPair: *defaultKeyPair
         - name: master
           count: 3
-          loadBalancerConfig: *defaultLoadBalancer
           apiServerConfig: *defaultApiServer
           kubeConfig: *defaultKube
           containerConfig: *defaultDocker
