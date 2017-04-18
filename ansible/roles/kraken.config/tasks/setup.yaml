@@ -1,4 +1,8 @@
 ---
+- set_fact:
+    cluster: "{{ cluster_node_tuple.0 }}"
+    node: "{{ cluster_node_tuple.1 }}"
+
 - name: Verify cloud provider is supported
   fail:
     msg: |
@@ -99,8 +103,8 @@
   set_fact:
     kubernetes_minor_version: "{{ masterVersion[0:(masterVersion.find('.', 3))] }}"
   vars:
-    masterVersion: "{{ (kraken_config | json_query('nodepool[?name==`masterNodes`].kubeConfig.version'))[0] }}"
-  when: cluster.providerConfig.provider == 'aws'
+    masterVersion: "{{ node.kubeConfig.version }}"
+  when: node.apiServerConfig is defined
 
 - name: Generate random prefix if required
   set_fact:
