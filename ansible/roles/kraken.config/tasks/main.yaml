@@ -25,6 +25,18 @@
     msg: "Make sure that the 'cluster' is defined in {{ config_file }}"
   when: kraken_config.cluster | is_empty
 
+- name: Ensure each nodePool corresponds to exactly one of the node roles (i.e. etcd, master, or node)
+  fail:
+    msg: "({{ i.0.name }}, {{ i.1.name }}) corresponds to more than one node role"
+  with_subelements:
+    - "{{ kraken_config.clusters }}"
+    - nodePools
+  loop_control:
+    loop_var: i
+  when: (i.1.etcdConfig is defined and (i.1.apiServerConfig is defined or i.1.kubeConfig is defined))
+         or (i.1.apiServerConfig is defined and i.1.kubeConfig is undefined)
+         or (i.1.etcdConfig is undefined and i.1.kubeConfig is undefined)
+
 - include: setup.yaml
   with_subelements:
     - "{{ kraken_config.clusters }}"

@@ -6,30 +6,13 @@
 - name: Verify cloud provider is supported
   fail:
     msg: |
-      {{ kraken_config.provider }} is not a supported cloud provider. Please file an issue at
+      {{ cluster.providerConfig.provider }} is not a supported cloud provider. Please file an issue at
       https://github.com/samsung-cnct/k2/issues to request support.
   when: cluster.providerConfig.provider not in ['aws', 'gke']
 
 - name: Set the kubernetes cloud provider to {{ cluster.providerConfig.provider }}
   set_fact:
     kraken_config: "{{ kraken_config | combine({'kubernetes_cloudprovider':kraken_config.provider}) }}"
-
-- name: Set the kubernetes cloud provider to none
-  set_fact:
-    kraken_config: "{{ kraken_config | combine({'kubernetes_cloudprovider':''}) }}"
-  when: cluster.providerConfig.provider not in ['aws', 'azure', 'cloudstack', 'gce', 'mesos', 'openstack', 'ovirt', 'rackspace', 'vsphere']
-
-- name: Ensure each nodePool corresponds to exactly one of the node roles (i.e. etcd, master, or node)
-  fail:
-    msg: "({{ i.0.name }}, {{ i.1.name }}) corresponds to more than one node role"
-  with_subelements:
-    - "{{ kraken_config.clusters }}"
-    - nodePools
-  loop_control:
-    loop_var: i
-  when: (i.1.etcdConfig is defined and (i.1.apiServerConfig is defined or i.1.kubeConfig is defined))
-         or (i.1.apiServerConfig is defined and i.1.kubeConfig is undefined)
-         or (i.1.etcdConfig is undefined and i.1.kubeConfig is undefined)
 
 - name: Set empty kubeAuth if not defined
   set_fact:
@@ -62,7 +45,7 @@
           'basic':[
             {
               'user': kraken_config.kubeAuth.authn.default_basic_user,
-              'password': lookup('password', config_base + '/' + kraken_config.cluster + '/auth/k8spassword-' + kraken_config.kubeAuth.authn.default_basic_user + ' chars=ascii_letters length=11')
+              'password': lookup('password', config_base + '/' + cluster.name + '/auth/k8spassword-' + kraken_config.kubeAuth.authn.default_basic_user + ' chars=ascii_letters length=11')
             }
           ]
         }
@@ -70,7 +53,7 @@
     }, recursive=True) }}"
   when: (cluster.kubeAuth.authn.basic is undefined) or (cluster.kubeAuth.authn.default_basic_user is undefined)
 
-- name: Retrive kube_basic_auths which have no password from kraken_config
+- name: Retrieve kube_basic_auths which have no password from kraken_config
   set_fact:
     undefined_password_kube_basic_auths: "{{ kraken_config.kubeAuth.authn.basic | selectattr('password', 'undefined') | list }} "
 
@@ -80,7 +63,7 @@
 
 - name: Generate password for the auths
   set_fact:
-    kube_basic_auths: "{{ kube_basic_auths + [ { 'user': item.user, 'password': lookup('password', config_base + '/' + kraken_config.cluster + '/auth/k8spassword-' + item.user + ' chars=ascii_letters length=11') } ] }}"
+    kube_basic_auths: "{{ kube_basic_auths + [ { 'user': item.user, 'password': lookup('password', config_base + '/' + cluster.name + '/auth/k8spassword-' + item.user + ' chars=ascii_letters length=11') } ] }}"
   with_items: "{{ undefined_password_kube_basic_auths }}"
 
 - name: Merge the kube basic auths to kraken_config
