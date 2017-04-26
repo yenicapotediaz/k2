@@ -1,4 +1,7 @@
 ---
+- set_fact:
+    cluster: "{{ a_cluster }}"
+
 - name: Setup readiness type
   set_fact:
     readiness_type: "{{ kraken_config.readiness.type | default('exact') }}"
