@@ -1,8 +1,11 @@
+- set_fact:
+    cluster: "{{ a_cluster }}"
+
 - name: Get oidc provider values from cluster services
   set_fact:
     oidc_provider_values: "{{ item.get('values') }}"
-  with_items: "{{ a_cluster.clusterServices.services | default([]) }}"
-  when: item.name == "{{ a_cluster.kubeAuth.authn.oidc.service_name }}"
+  with_items: "{{ cluster.helmConfigs.charts | default([]) }}"
+  when: item.name == "{{ cluster.kubeAuth.authn.oidc.service_name }}"
 
 ## TO DO :
 # Here duplicated oidc issuer configuration.
@@ -38,7 +41,7 @@
   shell: "echo {{ oidc_issuer  }} | awk -F/ '{print $3}' | awk -F: '{print $1}'"
   register: oidc_domain
 
-- name: Set oidc values to a_cluster.kubeAuth.authn
+- name: Set oidc values to cluster.kubeAuth.authn
   set_fact:
     kraken_config: "{{ kraken_config | combine(
     {
