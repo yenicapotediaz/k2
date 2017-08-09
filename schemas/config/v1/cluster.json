@@ -9,6 +9,7 @@
     "name": {
       "description": "Name of this cluster.",
       "type": "string",
+      "pattern": "^[A-Za-z0-9-]+$",
       "maxLength": 13,
       "minLength": 1
     },
