@@ -218,7 +218,6 @@ deployment:
       fabricConfig: *kubeVersionedFabric
       helmConfig: *defaultHelm
       dnsConfig: *defaultDns
-      helmOverride:
   readiness:
     type: exact
     value: 0
