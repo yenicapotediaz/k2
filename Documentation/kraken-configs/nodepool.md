@@ -2,7 +2,7 @@
 
 All instances in the cluster are to be described within the node pool.
 
-Examples would include
+Examples would include:
 
 * Instances used for etcd
 * Instance used for non-HA master
@@ -17,7 +17,7 @@ We do not expect the same machine types to be used for each purpose, therefore e
 ### Root Options
 | Key Name        | Required     | Type    | Description|
 | ----------      | ----------   | ------- | --- |
-| name            | __Required__ | String  | node pool name |
+| name            | __Required__ | String  | Node pool name |
 | count           | __Required__ | Integer | Total count of nodepool nodes |
 | etcdConfig      | Optional     | String  | Name of [etcd configuration](kvstore.md) for nodes
 | containerConfig | __Required__ | String  | Name of one of the [container configurations](container.md) |
