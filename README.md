@@ -82,7 +82,7 @@ You will need to have the following:
   - Create Route 53 records
   - Create IAM roles for EC2 instances
 
-### Running without -kraken-tools Docker image
+### Running without kraken-tools Docker image
 
 You will need the following installed on your machine:
 
