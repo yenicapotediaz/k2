@@ -53,7 +53,7 @@ Additionally, you can deploy some or all of these charts individually with the f
 - [ElasticSearch Curator](https://github.com/samsung-cnct/chart-curator)
 - [Kibana](https://github.com/samsung-cnct/chart-kibana)
 
-*These charts should work on any Kubernetes cluster*
+*These charts should work on any Kubernetes cluster.*
 
 #### Other Add-ons
 Another Kubernetes add-on that kraken-lib supports is [cluster-autoscaling](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) this can be 'enabled' in the following `config.yaml` block:
