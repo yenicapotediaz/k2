@@ -135,7 +135,7 @@ The chart `openldap` is used for authentication backend of `dex`.
 ## Endpoints
 By default, the chart exposes ports 30443, 30080 for `dex`.
 The user should use same URI which is defined in the config.yaml,
-and a port 31080 is also exposed for phpLDAPadmin which is included in `openldap`.
+and port 31080 is also exposed for phpLDAPadmin which is included in `openldap`.
 
 To access the service, the following ingress configuration is required.
 ```yaml
@@ -488,7 +488,7 @@ tomcat-1609341292-8qdbm   0/1       ContainerCreating   0          7s
 1. Certificates
 To use dex for auth, passing dex ca certificates is required.
 But there is size limitation using cloud-init with AWS.
-Now it just use same CA what kube apiserver uses.
+Now it just uses the same CA as the kube apiserver uses.
 Need another channel for passing it from given services to each VM instances.
 
 And to find/set dex services configuration like issuer URL.

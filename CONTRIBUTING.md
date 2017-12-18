@@ -41,7 +41,7 @@ To report a bug, [open an issue](https://github.com/samsung-cnct/k2/issues) and 
 
 Search our [issue tracker](https://github.com/samsung-cnct/k2/issues) for existing issues (aka tickets) similar to yours. If you find one, please add your information to it as a comment.
 
-If you want to provide a patch with your bug report, please do by sending us a pull request (PR) as described in the section below.
+If you want to provide a patch with your bug report, please do so by sending us a pull request (PR) as described in the section below.
 
 ## Issue Labeling ##
 We use GitHub issue labels to help us organize our workflow. As such, this section is for helping the kraken development team push work through in an orderly fashion. If you choose to help out by labeling, great! If not, we will do it during our bi-weekly backlog grooming meetings.
